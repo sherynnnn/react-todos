@@ -1,7 +1,6 @@
 import Item from "./item";
 
-function ItemsList(props) {
-    const {list} = props;
+function ItemsList({list, toggleTask, deleteTask}) {
     return (
         <div
       className="card rounded shadow-sm"
@@ -11,8 +10,14 @@ function ItemsList(props) {
       }}
     >
        <ul class="list-group">
-      {list.map((item,index) => {
-        return <Item num={index +1} {...item}/>;
+      {list.map((task) => {
+        return <Item 
+        key={task.id}
+        text={Item.text}
+        isCompleted={Item.isCompleted}
+        task={task}
+        toggleTask={toggleTask}
+        deleteTask={deleteTask}/>;
       })}
       </ul>
       </div>
