@@ -3,10 +3,31 @@ import {nanoid} from 'nanoid'
 import AddNewForm from "./components/addnew";
 import ItemList from "./components/list";
 
+
 function App() {
+  
+  const stringItems = localStorage.getItem("ItemsList");
+  // convert the string version of posts into array
+  let Item = JSON.parse(stringItems);
+  
+    // if posts is not found, set it as empty array
+    if (!Item) {
+      Item = [];
+    }
 
-  const [list, setList] = useState ([])
-
+    const [list, setList] = useState ([Item]);
+  
+    const handleUpdateItem = (UpdateItems) => {
+     
+      // 2. update the data back to the local storage using thelocalStorage.setItem()
+      let convertedItems = JSON.stringify(UpdateItems);
+  
+      localStorage.setItem("Item", convertedItems);
+      // 3. redirect back to /manage-posts
+     
+    };
+  
+  
 
   return (
     <div className="App">Todo
@@ -26,17 +47,19 @@ function App() {
             const newList = list.filter((t) => t.id !== id);
             // update the newList with the setState function
             setList(newList);
+            handleUpdateItem();
           }}
           
           toggleTask={(id) => {
-            const taskList = list.map((item) => {
+            const UpdateItems = list.map((item) => {
               if (item.id === id) {
                 return {...item, isCompleted: !item.isCompleted};
               } else{
               return item;
               }
             });
-            setList(taskList);
+            setList(UpdateItems);
+            handleUpdateItem(UpdateItems);
           }}
         />
         
@@ -52,6 +75,7 @@ function App() {
             });
             // update the newList with the setState function
             setList(newList);
+            handleUpdateItem();
           }}
         />
         </div>      
